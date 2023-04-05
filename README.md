@@ -6,4 +6,4 @@ O campo `especie_empenho` é definido no [dicionário de dados do Portal da Tran
 
 > Campo existente até 2020 indicando se o Empenho era de Reforço, Cancelamento, Estorno, Anulação ou Original. A partir de 2021, as alterações no Empenho são registradas em histórico do próprio Empenho original (planilha AAAAMMDD_Despesas_ItemEmpenhoHistorico.csv).
 
-A documentação desta análise pode ser consultada [NESTE RELATÓRIO](transparencia-brasil.github.io\docs\01-validacao-empenhos.html)
+A documentação desta análise pode ser consultada [NESTA PÁGINA](https://transparencia-brasil.github.io/validacao-de-empenhos-siga/Index.html)
