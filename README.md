@@ -1,6 +1,6 @@
 # Validação de empenhos na plataforma SIGA
 
-Coletamos os dados de empenhos do [Portal da Transparência](https://portaldatransparencia.gov.br/download-de-dados/despesas) e comparamos a agregação dos empenhos por ano com os mesmos dados consultados na plataforma [SIGA](https://www12.senado.leg.br/orcamento/sigabrasil). Temos dúvidas se a plataforma SIGA considera anulações de empenhos na demonstração de valores agregados a partir de 2021, pois o campo `especie_empenho` está marcado como `"Não aplicável"`.
+Coletamos os dados de empenhos do [Portal da Transparência](https://portaldatransparencia.gov.br/download-de-dados/despesas) e comparamos a agregação dos valores empenhados por ano com os mesmos dados consultados na plataforma [SIGA](https://www12.senado.leg.br/orcamento/sigabrasil). Temos dúvidas se a plataforma SIGA considera anulações de empenhos na demonstração de valores agregados a partir de 2021, pois o campo `especie_empenho` está marcado como `"Não aplicável"`.
 
 O campo `especie_empenho` é definido no [dicionário de dados do Portal da Transparência como](https://portaldatransparencia.gov.br/pagina-interna/605513-dicionario-de-dados-empenho):
 
