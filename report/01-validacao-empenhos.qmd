@@ -75,7 +75,7 @@ siga_senado <- tibble(
     29754205
   ))
 
-siga_senado %>% 
+siga_senado %>%
   ggplot(aes(
     x = ano_emissao_empenho,
     y = valor_do_empenho_convertido_pra_r,
@@ -109,13 +109,13 @@ Os valores empenhados não vão bater com o valor do portal SIGA, pois os empenh
 ```{r}
 #| fig-width: 12
 #| fig-height: 7
-empenhos %>% 
+empenhos %>%
   count(
     ano_emissao_empenho = year(data_emissao),
     especie_empenho, sort = TRUE
-  ) %>% 
-  complete(ano_emissao_empenho, especie_empenho, fill = list(n = 0)) %>% 
-  mutate(especie_empenho = ordered(especie_empenho, levels = names(cores_especie_empenhos_raw))) %>% 
+  ) %>%
+  complete(ano_emissao_empenho, especie_empenho, fill = list(n = 0)) %>%
+  mutate(especie_empenho = ordered(especie_empenho, levels = names(cores_especie_empenhos_raw))) %>%
   ggplot(aes(
     x = especie_empenho,
     y = n,
@@ -143,15 +143,15 @@ empenhos %>%
 ```{r}
 #| fig-width: 12
 #| fig-height: 7
-empenhos %>% 
+empenhos %>%
   count(
     ano_emissao_empenho = year(data_emissao),
     especie_empenho,
     wt = valor_do_empenho_convertido_pra_r,
     sort = TRUE
-  ) %>% 
-  complete(ano_emissao_empenho, especie_empenho, fill = list(n = 0)) %>% 
-  mutate(especie_empenho = ordered(especie_empenho, levels = names(cores_especie_empenhos_raw))) %>% 
+  ) %>%
+  complete(ano_emissao_empenho, especie_empenho, fill = list(n = 0)) %>%
+  mutate(especie_empenho = ordered(especie_empenho, levels = names(cores_especie_empenhos_raw))) %>%
   ggplot(aes(
     x = especie_empenho,
     y = n,
@@ -202,19 +202,19 @@ Aplicando a correção acima só conseguimos tratar dos empenhos nos anos de 201
 ```{r}
 #| fig-width: 12
 #| fig-height: 9
-empenhos %>% 
+empenhos %>%
   mutate(
     valor_do_empenho_convertido_pra_r = corrige_valores(
       esp = especie_empenho,
       vlr = valor_do_empenho_convertido_pra_r
-  )) %>% 
+  )) %>%
   count(
     ano_emissao_empenho = year(data_emissao),
     base = "Portal da transparência\n(corrigido)",
     wt = valor_do_empenho_convertido_pra_r,
     name = "valor_do_empenho_convertido_pra_r"
-  ) %>% 
-  bind_rows(siga_senado) %>% 
+  ) %>%
+  bind_rows(siga_senado) %>%
   ggplot(aes(
     x = "",
     y = valor_do_empenho_convertido_pra_r,
@@ -271,23 +271,23 @@ empenhos %>%
 
 ### Possível solução
 
-A [API do Portal da Transparência possui um endpoint](https://api.portaldatransparencia.gov.br/swagger-ui.html#/Despesas%20P%C3%BAblicas/consultaHistoricoUsingGET) para consulta de **histórico dos itens empenhados**. Esse histórico só pode ser consultado para empenhos a partir de 2021 e um dos campos é `fase_operacao`, onde podemos saber se o item empenhado diz respeito à inclusão, reforço ou anulação do item.
+A [API](https://api.portaldatransparencia.gov.br/swagger-ui.html#/Despesas%20P%C3%BAblicas/consultaHistoricoUsingGET) do Portal da Transparência possui um endpoint para consulta de **histórico dos itens empenhados**. Esse histórico só pode ser consultado para empenhos a partir de 2021 e um dos campos é `fase_operacao`, onde podemos saber se o item empenhado diz respeito à inclusão, reforço ou anulação do item.
 
 ```{r}
 library(DT)
 readRDS(here("data/empenhos-item-historico.rds")) %>%
-  select(-aaaammdd, -error, -id_empenho) %>% 
+  select(-aaaammdd, -error, -id_empenho) %>%
   mutate(
     tipo_operacao = as.factor(tipo_operacao),
     codigo_empenho = glue('<a href = "https://portaldatransparencia.gov.br/despesas/empenho/{codigo_empenho}">{codigo_empenho}</a>')
-  ) %>% 
+  ) %>%
   datatable(rownames = FALSE,
             filter = "top",
             escape = FALSE,
             options = list(pageLength = 10, searchHighlight = TRUE)) %>%
   formatCurrency(c("valor_total_item", "valor_unitario_item"), currency = "R$ ", mark = ".", dec.mark = ",") %>%
   formatStyle(columns = 1:7, fontSize = "70%")
-  
+
 ```
 
 ::: {.callout-note}
@@ -297,7 +297,7 @@ O esquema de dados abaixo apresenta os cruzamentos de tabelas necessários para 
 ### Esquema de dados
 
 ```{mermaid}
-%%| fig-width: 12
+%%| fig-width: 10
 %%| fig-height: 7
 classDiagram
   direction UD
@@ -329,3 +329,7 @@ classDiagram
 ```
 
 :::
+
+O gráfico abaixo mostra os resultados comparando dados coletados no Portal da Transparência em duas ocasiões (**Crawler dez.22** e **mar.23**), mais os dados consultados no **SIGA** e a **análise da TB** que descontou os valores de empenhos anulados para 2021 e 2022 conforme o esquema acima. Ao descontar os valores, alguns empenhos apresentaram somatórias de itens divergentes do valor do documento de empenho (são os "empenhos problemáticos" que estão [nesta planilha](https://docs.google.com/spreadsheets/d/1s3RLwhw386yEb1PA6jMnnSCJxLKMxM6kg1foSfzszsU/edit#gid=1900211006))
+
+![](2023-04-05-12-00-40.png)
