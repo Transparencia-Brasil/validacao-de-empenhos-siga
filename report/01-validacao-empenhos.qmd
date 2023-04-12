@@ -100,7 +100,7 @@ Foram baixados os empenhos das [planilhas diárias do portal da transparência](
 empenhos <- readRDS(here("data/empenhos.rds"))
 ```
 
-Os valores empenhados não vão bater com o valor do portal SIGA, pois os empenhos são classificados de acordo com o campo `especie_empenho`, abaixo nós podemos observar a somatória de cada espécie de empenho, note que não há descontos para empenhos de anulação, cancelamento, estorno, etc. (esses valores deveriam ser negativos). Outro ponto importante é que a partir de 2021 a marcação do campo `especie_empenho` é descontinuada a partir de 2021.
+Os valores empenhados não vão bater com o valor do portal SIGA, pois os empenhos são classificados de acordo com o campo `especie_empenho`, abaixo nós podemos observar a somatória de cada espécie de empenho, note que não há descontos para empenhos de anulação, cancelamento, estorno, etc. (esses valores deveriam ser negativos). Outro ponto importante é que a partir de 2021 a marcação do campo `especie_empenho` é descontinuada.
 
 ::: {.panel-tabset}
 
@@ -329,7 +329,3 @@ classDiagram
 ```
 
 :::
-
-O gráfico abaixo mostra os resultados comparando dados coletados no Portal da Transparência em duas ocasiões (**Crawler dez.22** e **mar.23**), mais os dados consultados no **SIGA** e a **análise da TB** que descontou os valores de empenhos anulados para 2021 e 2022 conforme o esquema acima. Ao descontar os valores, alguns empenhos apresentaram somatórias de itens divergentes do valor do documento de empenho (são os "empenhos problemáticos" que estão [nesta planilha](https://docs.google.com/spreadsheets/d/1s3RLwhw386yEb1PA6jMnnSCJxLKMxM6kg1foSfzszsU/edit#gid=1900211006))
-
-![](2023-04-05-12-00-40.png)
